@@ -1,0 +1,41 @@
+name: Run Data Sync
+
+on:
+  workflow_dispatch: 
+  schedule:
+    - cron: '31 7/8 * * *'
+  push:
+    branches:
+      - main
+
+env:
+  CYCLE_PLATFORM: [giant]
+
+jobs:
+  sync:
+    name: Cycle Sync
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        id: setup_python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: 'requirements.txt'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+      
+      - name: Download FIT files from Garmin
+        run: |
+          python garmin_fit_downloader/garmin_fit_downloader.py ${{ secrets.GARMIN_EMAIL }} ${{ secrets.GARMIN_PASSWORD }}
+
+      - name: Upload FIT files to Giant
+        if: contains(env.CYCLE_PLATFORM, 'giant')
+        run: |
+          python giant_fit_uploader/giant_fit_uploader.py ${{ secrets.GIANT_USERNAME }} ${{ secrets.GIANT_PASSWORD }}

@@ -65,10 +65,7 @@ def upload_fit_files_to_giant(username, password):
 
         try:
             response_json = upload_response.json()
-            if response_json['status'] == "1":
-                print(f"{file_name}, 上传成功, Status Code: {upload_response.status_code}")
-            else:
-                print(f"{file_name}, 上传失败, Status Code: {upload_response.status_code}")
+            print(f"{file_name}, {response_json}, Status Code: {upload_response.status_code}")
         except json.JSONDecodeError:
             print("Response is not valid JSON")
             print(f"Raw response: {upload_response.text}")

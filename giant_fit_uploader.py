@@ -36,45 +36,42 @@ def get_token(username, password):
 
 def upload_fit_files_to_giant(username, password):
     token = get_token(username, password)
-    form_data = (
-        f'--{BOUNDARY}\r\n'
-        f'Content-Disposition: form-data; name="token"\r\n\r\n'
-        f'{token}\r\n'
-        f'--{BOUNDARY}\r\n'
-        f'Content-Disposition: form-data; name="device"\r\n\r\n'
-        f'{DEVICE}\r\n'
-        f'--{BOUNDARY}\r\n'
-        f'Content-Disposition: form-data; name="brand"\r\n\r\n'
-        f'{BRAND}\r\n'
-        f'--{BOUNDARY}\r\n'
-    )
+
+    upload_headers = {
+        "Content-Type": f"multipart/form-data; boundary={BOUNDARY}"
+    }
 
     for file_name in os.listdir(FOLDER_PATH):
         if file_name.endswith(".fit"):
             file_path = os.path.join(FOLDER_PATH, file_name)
         with open(file_path, 'rb') as file:
             file_data = file.read()
-        form_data += (
-            f'Content-Disposition: form-data; name="files[]"; filename="{file_name}"\r\n'
-            f'Content-Type: "application/octet-stream"\r\n\r\n'
-            f'{file_data}\r\n'
+        form_data = (
             f'--{BOUNDARY}\r\n'
-        )
-    upload_headers = {
-        "Content-Type": f"multipart/form-data; boundary={BOUNDARY}"
-    }
+            f'Content-Disposition: form-data; name="token"\r\n\r\n'
+            f'{token}\r\n'
+            f'--{BOUNDARY}\r\n'
+            f'Content-Disposition: form-data; name="device"\r\n\r\n'
+            f'{DEVICE}\r\n'
+            f'--{BOUNDARY}\r\n'
+            f'Content-Disposition: form-data; name="brand"\r\n\r\n'
+            f'{BRAND}\r\n'
+            f'--{BOUNDARY}\r\n'
+            f'Content-Disposition: form-data; name="files[]"; filename="{file_name}"\r\n'
+            f'Content-Type: application/octet-stream\r\n\r\n'
+        ).encode('utf-8') + file_data + f'\r\n--{BOUNDARY}--\r\n'.encode('utf-8')
 
-    upload_response = requests.post(UPLOAD_URL, headers=upload_headers, data=form_data.encode('utf-8'))
+        upload_response = requests.post(UPLOAD_URL, headers=upload_headers, data=form_data)
 
-    print(f"Status Code: {upload_response.status_code}")
-
-    try:
-        response_json = upload_response.json()
-        if 'msg' in response_json:
-            print(f"Response: {json.dumps(response_json, ensure_ascii=False)}")
-    except json.JSONDecodeError:
-        print("Response is not valid JSON")
-        print(f"Raw response: {upload_response.text}")
+        try:
+            response_json = upload_response.json()
+            if response_json['status'] == "1":
+                print(f"{file_name}, 上传成功, Status Code: {upload_response.status_code}")
+            else:
+                print(f"{file_name}, 上传失败, Status Code: {upload_response.status_code}")
+        except json.JSONDecodeError:
+            print("Response is not valid JSON")
+            print(f"Raw response: {upload_response.text}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

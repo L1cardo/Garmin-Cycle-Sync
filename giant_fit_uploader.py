@@ -46,6 +46,7 @@ def upload_fit_files_to_giant(username, password):
         f'--{BOUNDARY}\r\n'
         f'Content-Disposition: form-data; name="brand"\r\n\r\n'
         f'{BRAND}\r\n'
+        f'--{BOUNDARY}\r\n'
     )
 
     for file_name in os.listdir(FOLDER_PATH):
@@ -54,7 +55,6 @@ def upload_fit_files_to_giant(username, password):
         with open(file_path, 'rb') as file:
             file_data = file.read()
         form_data += (
-            f'--{BOUNDARY}\r\n'
             f'Content-Disposition: form-data; name="files[]"; filename="{file_name}"\r\n'
             f'Content-Type: "application/octet-stream"\r\n\r\n'
             f'{file_data}\r\n'

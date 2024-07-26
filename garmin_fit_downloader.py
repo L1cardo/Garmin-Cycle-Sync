@@ -13,6 +13,7 @@ EXCLUDE_CHILDREN = False
 # 文件夹路径
 FIT_OUT = "FIT_OUT"
 
+
 def download_fit_files_from_garmin(username, password):
     fit_files = []
 
@@ -24,26 +25,26 @@ def download_fit_files_from_garmin(username, password):
     activities = garth.connectapi(
         f"/activitylist-service/activities/search/activities",
         params={
-            "activityType": ACTIVITY_TYPE, 
-            "limit": ACTIVITY_LIMIT, 
-            "start": ACTIVITY_START, 
-            'excludeChildren': EXCLUDE_CHILDREN
+            "activityType": ACTIVITY_TYPE,
+            "limit": ACTIVITY_LIMIT,
+            "start": ACTIVITY_START,
+            "excludeChildren": EXCLUDE_CHILDREN,
         },
     )
 
     for activity in activities:
 
-        activity_id = str(activity['activityId'])
+        activity_id = str(activity["activityId"])
         res = garth.download(f"/download-service/files/activity/{activity_id}")
 
         zip_file_path = os.path.join(FIT_OUT, f"{activity_id}.zip")
         with open(zip_file_path, "wb") as f:
             f.write(res)
-    
+
         # 解压zip文件到FIT_OUT文件夹
-        with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
+        with zipfile.ZipFile(zip_file_path, "r") as zip_ref:
             zip_ref.extractall(FIT_OUT)
-    
+
         fit_file_path = os.path.join(FIT_OUT, f"{activity_id}_ACTIVITY.fit")
         fit_files.append(fit_file_path)
 
@@ -52,7 +53,8 @@ def download_fit_files_from_garmin(username, password):
     print(f"FIT file downloaded and extracted to: {fit_files}")
     return fit_files
 
-if __name__ == "__main__":    
+
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("email", nargs="?", help="input garmin email")
     parser.add_argument("password", nargs="?", help="input giant password")
@@ -62,4 +64,3 @@ if __name__ == "__main__":
     password = options.password
 
     download_fit_files_from_garmin(email, password)
-    

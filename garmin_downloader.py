@@ -2,6 +2,7 @@ import garth
 import zipfile
 import os
 import argparse
+import time
 
 # Garmin配置
 GARMIN_DOMAIN = "garmin.cn"
@@ -49,6 +50,8 @@ def download_from_garmin(username, password):
         fit_files.append(fit_file_path)
 
         os.remove(zip_file_path)
+
+        time.sleep(1)  # 每次请求之间等待 1 秒
 
     print(f"FIT file downloaded and extracted to: {fit_files}")
     return fit_files

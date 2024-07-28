@@ -2,6 +2,7 @@ import requests
 import os
 import json
 import argparse
+import time
 
 # Giant配置
 LOGIN_URL = "https://ridelife.giant.com.cn/index.php/api/login"
@@ -72,6 +73,8 @@ def upload_to_giant(username, password):
         except json.JSONDecodeError:
             print("Response is not valid JSON")
             print(f"Raw response: {upload_response.text}")
+
+        time.sleep(1)  # 每次请求之间等待 1 秒
 
 
 if __name__ == "__main__":

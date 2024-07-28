@@ -32,9 +32,7 @@ def upload_to_onelap(account, password):
     login_response = session.post(
         LOGIN_URL, headers=login_headers, data=json.dumps(login_data)
     )
-    if login_response.status_code == 200:
-        print("登录成功")
-    else:
+    if login_response.status_code != 200:
         print(f"登录失败，状态码: {login_response.status_code}")
         print(f"响应内容: {login_response.text}")
 
@@ -47,9 +45,9 @@ def upload_to_onelap(account, password):
 
         if token_match:
             token = token_match.group(1)
-            print(f"提取的 _token 值: {token}")
+            print(f"登录成功, 已获取 Token: {token}")
         else:
-            print("未找到 _token")
+            print("未找到 Token")
     else:
         print(f"访问分析页面失败，状态码: {analysis_response.status_code}")
         print(f"响应内容: {analysis_response.text}")

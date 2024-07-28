@@ -24,12 +24,12 @@ def get_token(username, password):
     login_response = requests.post(LOGIN_URL, headers=login_headers, data=login_data)
 
     login_json = login_response.json()
+    token = login_json["user_token"]
     if login_json["status"] == 1:
-        print("登录成功，已获取 Token")
-        return login_json["user_token"]
+        print(f"登录成功，已获取 Token: {token}")
+        return token
     else:
         print("登录失败")
-        exit()
 
 
 def upload_to_giant(username, password):

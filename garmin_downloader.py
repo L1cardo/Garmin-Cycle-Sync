@@ -53,7 +53,7 @@ def download_from_garmin(username, password):
 
         time.sleep(1)  # 每次请求之间等待 1 秒
 
-    print(f"FIT file downloaded and extracted to: {fit_files}")
+        print(f"FIT 文件下载成功: {activity_id}_ACTIVITY.fit")
     return fit_files
 
 

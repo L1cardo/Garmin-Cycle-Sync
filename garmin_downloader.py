@@ -14,7 +14,7 @@ EXCLUDE_CHILDREN = False
 FIT_OUT = "FIT_OUT"
 
 
-def download_fit_files_from_garmin(username, password):
+def download_from_garmin(username, password):
     fit_files = []
 
     if not os.path.exists(FIT_OUT):
@@ -63,4 +63,4 @@ if __name__ == "__main__":
     email = options.email
     password = options.password
 
-    download_fit_files_from_garmin(email, password)
+    download_from_garmin(email, password)

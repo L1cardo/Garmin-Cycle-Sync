@@ -31,7 +31,7 @@ def get_token(username, password):
         exit()
 
 
-def upload_fit_files_to_giant(username, password):
+def upload_to_giant(username, password):
     token = get_token(username, password)
 
     upload_headers = {"Content-Type": f"multipart/form-data; boundary={BOUNDARY}"}
@@ -83,4 +83,4 @@ if __name__ == "__main__":
     username = options.username
     password = options.password
 
-    upload_fit_files_to_giant(username, password)
+    upload_to_giant(username, password)

@@ -9,7 +9,7 @@ on:
       - main
 
 env:
-  CYCLE_PLATFORM: giant, onelap
+  CYCLE_PLATFORM: giant,onelap
 
 jobs:
   sync:
@@ -36,11 +36,11 @@ jobs:
           python garmin_downloader.py ${{ secrets.GARMIN_EMAIL }} ${{ secrets.GARMIN_PASSWORD }}
 
       - name: Upload FIT files to Giant
-        if: contains(format(' {0} ', env.CYCLE_PLATFORM), ' giant ')
+        if: contains(format(',{0},', env.CYCLE_PLATFORM), ',giant,')
         run: |
           python giant_uploader.py ${{ secrets.GIANT_USERNAME }} ${{ secrets.GIANT_PASSWORD }}
       
       - name: Upload FIT files to Onelap
-        if: contains(format(' {0} ', env.CYCLE_PLATFORM), ' onelap ')
+        if: contains(format(',{0},', env.CYCLE_PLATFORM), ',onelap,')
         run: |
           python onelap_uploader.py ${{ secrets.ONELAP_ACCOUNT }} ${{ secrets.ONELAP_PASSWORD }}

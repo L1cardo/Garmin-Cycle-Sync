@@ -45,7 +45,7 @@ def upload_to_onelap(account, password):
 
         if token_match:
             token = token_match.group(1)
-            print(f"登录成功, 已获取 Token: {token}")
+            print("登录成功, 已获取 Token")
         else:
             print("未找到 Token")
     else:

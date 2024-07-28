@@ -26,7 +26,7 @@ def get_token(username, password):
     login_json = login_response.json()
     token = login_json["user_token"]
     if login_json["status"] == 1:
-        print(f"登录成功，已获取 Token: {token}")
+        print("登录成功，已获取 Token")
         return token
     else:
         print("登录失败")

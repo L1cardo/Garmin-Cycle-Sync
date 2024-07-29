@@ -50,10 +50,10 @@ def download_from_garmin(username, password):
         fit_files.append(fit_file_path)
 
         os.remove(zip_file_path)
+        print(f"FIT 文件下载成功: {activity_id}_ACTIVITY.fit")
 
         time.sleep(1)  # 每次请求之间等待 1 秒
 
-        print(f"FIT 文件下载成功: {activity_id}_ACTIVITY.fit")
     return fit_files
 
 

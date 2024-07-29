@@ -1,4 +1,4 @@
-name: Run Data Sync
+name: Garmin Cycle Sync
 
 on:
   workflow_dispatch: 
@@ -8,13 +8,13 @@ on:
     branches:
       - main
 
-env:
-  CYCLE_PLATFORM: giant,onelap
-
 jobs:
   sync:
     name: Cycle Sync
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [giant, onelap]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,12 +35,10 @@ jobs:
         run: |
           python garmin_downloader.py ${{ secrets.GARMIN_EMAIL }} ${{ secrets.GARMIN_PASSWORD }}
 
-      - name: Upload FIT files to Giant
-        if: contains(format(',{0},', env.CYCLE_PLATFORM), ',giant,')
+      - name: Upload FIT files to ${{ matrix.platform }}
         run: |
-          python giant_uploader.py ${{ secrets.GIANT_USERNAME }} ${{ secrets.GIANT_PASSWORD }}
-      
-      - name: Upload FIT files to Onelap
-        if: contains(format(',{0},', env.CYCLE_PLATFORM), ',onelap,')
-        run: |
-          python onelap_uploader.py ${{ secrets.ONELAP_ACCOUNT }} ${{ secrets.ONELAP_PASSWORD }}
+          if [ "${{ matrix.platform }}" = "giant" ]; then
+            python giant_uploader.py ${{ secrets.GIANT_USERNAME }} ${{ secrets.GIANT_PASSWORD }}
+          elif [ "${{ matrix.platform }}" = "onelap" ]; then
+            python onelap_uploader.py ${{ secrets.ONELAP_ACCOUNT }} ${{ secrets.ONELAP_PASSWORD }}
+          fi

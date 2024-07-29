@@ -22,8 +22,8 @@
 1. 确保您的系统已安装Python 3.10或更高版本。
 2. 克隆此仓库到本地：
    ```bash
-   git clone https://github.com/your-username/cycling-activity-sync.git
-   cd cycling-activity-sync
+   git clone https://github.com/L1cardo/Garmin-Cycle-Sync.git
+   cd Garmin-Cycle-Sync
    ```
 3. 安装所需的依赖：
    ```bash
@@ -66,7 +66,7 @@
    - 当您推送代码到 main 分支时运行
    - 允许手动触发
 
-4. 您可以通过设置环境变量 `CYCLE_PLATFORM` 来控制上传到哪些平台。例如 "giant,onelap"。
+4. 您可以通过更改变量 `platform` 来控制上传到哪些平台。
 
 ### 自定义工作流程
 
@@ -74,18 +74,22 @@
 
 1. 编辑 `.github/workflows/sync.yml` 文件。
 2. 您可以调整运行时间、触发条件或添加更多步骤。
-3. 如果您只想上传到特定平台，可以修改 `CYCLE_PLATFORM` 环境变量。
+3. 如果您只想上传到特定平台，可以修改
+   ```yaml
+   matrix:
+        platform: [giant, onelap]
+   ```
 
 例如，只上传到 捷安特：
 ```yaml
-env:
-  CYCLE_PLATFORM: giant
+matrix:
+   platform: [giant]
 ```
 
 或者，上传到 捷安特 和 顽鹿-迈金：
 ```yaml
-env:
-  CYCLE_PLATFORM: giant,onelap # 注意：两个平台之间用英文逗号 , 隔开，并且不能有空格
+matrix:
+   platform: [giant, onelap]
 ```
 
 ## 注意事项

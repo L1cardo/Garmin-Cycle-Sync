@@ -13,6 +13,8 @@
 
 - 顽鹿-迈金
 
+- 迹驰-iGPSPORT
+
 未来会支持更多平台
 
 ## 本地使用方法
@@ -32,19 +34,28 @@
 
 ### 使用步骤
 
+#### 下载 FIT 文件
+
 1. 从 Garmin Connect(中国) 下载 FIT 文件：
    ```bash
    python garmin_download.py ${GARMIN_EMAIL} ${GARMIN_PASSWORD}
    ```
 
-2. 上传 FIT 文件到 捷安特：
+#### 上传 FIT 文件
+
+1. 上传 FIT 文件到 捷安特：
    ```bash
    python giant_upload.py ${GIANT_USERNAME} ${GIANT_PASSWORD}
    ```
 
-3. 上传 FIT 文件到 顽鹿-迈金：
+2. 上传 FIT 文件到 顽鹿-迈金：
    ```bash
-   python onelap_upload.py ${ONELAP_ACCOUNT ${ONELAP_PASSWORD}
+   python onelap_upload.py ${ONELAP_ACCOUNT} ${ONELAP_PASSWORD}
+   ```
+
+3. 上传 FIT 文件到 迹驰-iGPSPORT：
+   ```bash
+   python igp_upload.py ${IGP_USERNAME} ${IGP_PASSWORD}
    ```
 
 ## GitHub Actions 使用方法
@@ -60,6 +71,8 @@
    - `GIANT_PASSWORD`: 捷安特 密码
    - `ONELAP_ACCOUNT`: 顽鹿-迈金 账户
    - `ONELAP_PASSWORD`: 顽鹿-迈金 密码
+   - `IGP_USERNAME`: 迹驰-iGPSPORT 用户名
+   - `IGP_PASSWORD`: 迹驰-iGPSPORT 密码
 
 3. GitHub Actions 工作流程已经配置好，它会：
    - 每 8 小时运行一次，在每天的 07:31, 15:31, 23:31 (北京时间)
@@ -77,7 +90,7 @@
 3. 如果您只想上传到特定平台，可以修改
    ```yaml
    matrix:
-        platform: [giant, onelap]
+        platform: [giant, onelap, igp]
    ```
 
 例如，只上传到 捷安特：
@@ -91,6 +104,8 @@ matrix:
 matrix:
    platform: [giant, onelap]
 ```
+
+等等
 
 ## 注意事项
 

@@ -22,14 +22,13 @@ def get_token(username, password):
     login_headers = {"Content-Type": "application/x-www-form-urlencoded; charset=utf-8"}
 
     login_response = requests.post(LOGIN_URL, headers=login_headers, data=login_data)
-
     login_json = login_response.json()
-    token = login_json["user_token"]
     if login_json["status"] == 1:
         print("登录成功，已获取 Token")
-        return token
+        return login_json["user_token"]
     else:
-        print("登录失败")
+        print(f"登录失败，状态码: {login_response.status_code}")
+        print(f"响应内容: {login_response.text}")
 
 
 def upload_to_giant(username, password):

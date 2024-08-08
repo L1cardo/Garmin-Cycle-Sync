@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        platform: [giant, onelap]
+        platform: [giant, onelap, igp]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -41,4 +41,6 @@ jobs:
             python giant_uploader.py ${{ secrets.GIANT_USERNAME }} ${{ secrets.GIANT_PASSWORD }}
           elif [ "${{ matrix.platform }}" = "onelap" ]; then
             python onelap_uploader.py ${{ secrets.ONELAP_ACCOUNT }} ${{ secrets.ONELAP_PASSWORD }}
+          elif [ "${{ matrix.platform }}" = "igp" ]; then
+            python igp_uploader.py ${{ secrets.IGP_USERNAME }} ${{ secrets.IGP_PASSWORD }}
           fi

@@ -3,7 +3,7 @@ name: Garmin Cycle Sync
 on:
   workflow_dispatch: 
   schedule:
-    - cron: '31 7/8 * * *'
+    - cron: '32 7/8 * * *'
   push:
     branches:
       - main

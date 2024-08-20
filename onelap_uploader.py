@@ -77,7 +77,7 @@ def upload_to_onelap(account, password):
         try:
             response_json = upload_response.json()
             print(
-                f"{file_name}, {response_json}, Status Code: {upload_response.status_code}"
+                f"上传信息：{file_name}, {response_json}, Status Code: {upload_response.status_code}"
             )
         except json.JSONDecodeError:
             print("Response is not valid JSON")

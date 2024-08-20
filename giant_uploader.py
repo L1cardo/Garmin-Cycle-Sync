@@ -43,7 +43,7 @@ def upload_to_giant(username, password):
         DAILY_SIGN_URL, headers=login_headers, data=daily_sign_data
     )
     daily_sign_json = daily_sign_response.json()
-    print(daily_sign_json)
+    print(f"签到信息：{daily_sign_json}")
 
     # 上传
     upload_headers = {"Content-Type": f"multipart/form-data; boundary={BOUNDARY}"}
@@ -78,7 +78,7 @@ def upload_to_giant(username, password):
         try:
             response_json = upload_response.json()
             print(
-                f"{file_name}, {response_json}, Status Code: {upload_response.status_code}"
+                f"上传信息：{file_name}, {response_json}, Status Code: {upload_response.status_code}"
             )
         except json.JSONDecodeError:
             print("Response is not valid JSON")

@@ -7,6 +7,7 @@ import time
 # Giant配置
 LOGIN_URL = "https://ridelife.giant.com.cn/index.php/api/login"
 UPLOAD_URL = "https://ridelife.giant.com.cn/index.php/api/upload_fit"
+DAILY_SIGN_URL = "https://opo.giant.com.cn/opo/index.php/day_pic/do_app_pic"
 
 # 设置变量
 DEVICE = "bike_computer"
@@ -17,25 +18,35 @@ FOLDER_PATH = "FIT_OUT"
 BOUNDARY = "----WebKitFormBoundaryreNAGwfDuBI8rK4S"
 
 
-def get_token(username, password):
-    login_data = {"username": username, "password": password}
-    login_headers = {"Content-Type": "application/x-www-form-urlencoded; charset=utf-8"}
+def upload_to_giant(username, password):
+    # 创建一个会话
+    session = requests.Session()
+    token = ""
+    userID = ""
 
-    login_response = requests.post(LOGIN_URL, headers=login_headers, data=login_data)
+    # 登录
+    login_headers = {"Content-Type": "application/x-www-form-urlencoded; charset=utf-8"}
+    login_data = {"username": username, "password": password}
+    login_response = session.post(LOGIN_URL, headers=login_headers, data=login_data)
     login_json = login_response.json()
     if login_json["status"] == 1:
         print("登录成功，已获取 Token")
-        return login_json["user_token"]
+        token = login_json["user_token"]
+        userID = login_json["user"]["userId"]
     else:
         print(f"登录失败，状态码: {login_response.status_code}")
         print(f"响应内容: {login_response.text}")
 
+    # 签到
+    daily_sign_data = {"type": "1", "user_id": userID}
+    daily_sign_response = session.post(
+        DAILY_SIGN_URL, headers=login_headers, data=daily_sign_data
+    )
+    daily_sign_json = daily_sign_response.json()
+    print(daily_sign_json)
 
-def upload_to_giant(username, password):
-    token = get_token(username, password)
-
+    # 上传
     upload_headers = {"Content-Type": f"multipart/form-data; boundary={BOUNDARY}"}
-
     for file_name in os.listdir(FOLDER_PATH):
         if file_name.endswith(".fit"):
             file_path = os.path.join(FOLDER_PATH, file_name)
@@ -60,7 +71,7 @@ def upload_to_giant(username, password):
             + f"\r\n--{BOUNDARY}--\r\n".encode("utf-8")
         )
 
-        upload_response = requests.post(
+        upload_response = session.post(
             UPLOAD_URL, headers=upload_headers, data=form_data
         )
 

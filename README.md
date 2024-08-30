@@ -15,6 +15,8 @@
 
 - 迹驰-iGPSPORT
 
+- 行者
+
 未来会支持更多平台
 
 ## 本地使用方法
@@ -73,6 +75,8 @@
    - `ONELAP_PASSWORD`: 顽鹿-迈金 密码
    - `IGP_USERNAME`: 迹驰-iGPSPORT 用户名
    - `IGP_PASSWORD`: 迹驰-iGPSPORT 密码
+   - `XINGZHE_ACCOUNT`: 行者 用户名
+   - `XINGZHE_PASSWORD`: 行者 密码
 
 3. GitHub Actions 工作流程已经配置好，它会：
    - 每 8 小时运行一次，在每天的 07:31, 15:31, 23:31 (北京时间)
@@ -90,7 +94,7 @@
 3. 如果您只想上传到特定平台，可以修改
    ```yaml
    matrix:
-        platform: [giant, onelap, igp]
+        platform: [giant, onelap, igp, xingzhe]
    ```
 
 例如，只上传到 捷安特：

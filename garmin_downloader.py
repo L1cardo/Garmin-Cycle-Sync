@@ -16,8 +16,6 @@ FIT_OUT = "FIT_OUT"
 
 
 def download_from_garmin(username, password):
-    fit_files = []
-
     if not os.path.exists(FIT_OUT):
         os.makedirs(FIT_OUT)
 
@@ -34,8 +32,10 @@ def download_from_garmin(username, password):
     )
 
     for activity in activities:
-
         activity_id = str(activity["activityId"])
+        activity_name = (
+            str(activity["startTimeLocal"]) + " " + str(activity["activityName"])
+        )
         res = garth.download(f"/download-service/files/activity/{activity_id}")
 
         zip_file_path = os.path.join(FIT_OUT, f"{activity_id}.zip")
@@ -45,16 +45,16 @@ def download_from_garmin(username, password):
         # 解压zip文件到FIT_OUT文件夹
         with zipfile.ZipFile(zip_file_path, "r") as zip_ref:
             zip_ref.extractall(FIT_OUT)
-
-        fit_file_path = os.path.join(FIT_OUT, f"{activity_id}_ACTIVITY.fit")
-        fit_files.append(fit_file_path)
-
         os.remove(zip_file_path)
-        print(f"FIT 文件下载成功: {activity_id}_ACTIVITY.fit")
+
+        # 重命名文件
+        old_file_name = os.path.join(FIT_OUT, f"{activity_id}_ACTIVITY.fit")
+        new_file_name = os.path.join(FIT_OUT, f"{activity_name}.fit")
+
+        os.rename(old_file_name, new_file_name)
+        print(f"FIT 文件下载成功: {activity_name}.fit")
 
         time.sleep(1)  # 每次请求之间等待 1 秒
-
-    return fit_files
 
 
 if __name__ == "__main__":

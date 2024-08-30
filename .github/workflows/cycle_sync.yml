@@ -44,5 +44,5 @@ jobs:
           elif [ "${{ matrix.platform }}" = "igp" ]; then
             python igp_uploader.py ${{ secrets.IGP_USERNAME }} ${{ secrets.IGP_PASSWORD }}
           elif [ "${{ matrix.platform }}" = "xingzhe" ]; then
-            python igp_uploader.py ${{ secrets.XINGZHE_ACCOUNT }} ${{ secrets.XINGZHE_PASSWORD }}
+            python xingzhe_uploader.py ${{ secrets.XINGZHE_ACCOUNT }} ${{ secrets.XINGZHE_PASSWORD }}
           fi

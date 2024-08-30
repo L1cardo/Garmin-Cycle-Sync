@@ -60,7 +60,7 @@ def upload_to_xingzhe(account, password):
                 f'{md5_hash}\r\n'
                 f"--{BOUNDARY}\r\n"
                 f'Content-Disposition: form-data; name="name"\r\n\r\n'
-                f'{file_name}\r\n'
+                f'{file_name.removesuffix(".fit")}\r\n'
                 f"--{BOUNDARY}\r\n"
                 f'Content-Disposition: form-data; name="sport"\r\n\r\n'
                 f'{3}\r\n'

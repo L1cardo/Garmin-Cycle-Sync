@@ -9,13 +9,13 @@
 
 ## 支持平台
 
-- 捷安特（包含每日签到）
+- [捷安特（包含每日签到）](https://ridelife.giant.com.cn/web/main_fit.html)
 
-- 顽鹿-迈金
+- [顽鹿-迈金](http://u.onelap.cn/analysis)
 
-- 迹驰-iGPSPORT
+- [迹驰-iGPSPORT](https://my.igpsport.com/upload/index)
 
-- 行者
+- [行者](https://www.imxingzhe.com/upload/fit)
 
 未来会支持更多平台
 
@@ -40,24 +40,29 @@
 
 1. 从 Garmin Connect(中国) 下载 FIT 文件：
    ```bash
-   python garmin_download.py ${GARMIN_EMAIL} ${GARMIN_PASSWORD}
+   python garmin_downloader.py ${GARMIN_EMAIL} ${GARMIN_PASSWORD}
    ```
 
 #### 上传 FIT 文件
 
 1. 上传 FIT 文件到 捷安特：
    ```bash
-   python giant_upload.py ${GIANT_USERNAME} ${GIANT_PASSWORD}
+   python giant_uploader.py ${GIANT_USERNAME} ${GIANT_PASSWORD}
    ```
 
 2. 上传 FIT 文件到 顽鹿-迈金：
    ```bash
-   python onelap_upload.py ${ONELAP_ACCOUNT} ${ONELAP_PASSWORD}
+   python onelap_uploader.py ${ONELAP_ACCOUNT} ${ONELAP_PASSWORD}
    ```
 
 3. 上传 FIT 文件到 迹驰-iGPSPORT：
    ```bash
-   python igp_upload.py ${IGP_USERNAME} ${IGP_PASSWORD}
+   python igp_uploader.py ${IGP_USERNAME} ${IGP_PASSWORD}
+   ```
+
+4. 上传 FIT 文件到 行者：
+   ```bash
+   python xingzhe_uploader.py ${XINGZHE_ACCOUNT} ${XINGZHE_PASSWORD}
    ```
 
 ## GitHub Actions 使用方法

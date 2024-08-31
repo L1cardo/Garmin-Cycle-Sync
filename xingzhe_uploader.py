@@ -53,17 +53,19 @@ def upload_to_xingzhe(account, password):
         form_data = (
             (
                 f"--{BOUNDARY}\r\n"
+                f'Content-Disposition: form-data; name="file_source"\r\n\r\n'
+                f"Garmin\r\n"
                 f'Content-Disposition: form-data; name="fit_filename"\r\n\r\n'
-                f'{file_name}'
+                f"{file_name}"
                 f"--{BOUNDARY}\r\n"
                 f'Content-Disposition: form-data; name="md5"\r\n\r\n'
-                f'{md5_hash}\r\n'
+                f"{md5_hash}\r\n"
                 f"--{BOUNDARY}\r\n"
                 f'Content-Disposition: form-data; name="name"\r\n\r\n'
                 f'{file_name.removesuffix(".fit")}\r\n'
                 f"--{BOUNDARY}\r\n"
                 f'Content-Disposition: form-data; name="sport"\r\n\r\n'
-                f'{3}\r\n'
+                f"3\r\n"
                 f"--{BOUNDARY}\r\n"
                 f'Content-Disposition: form-data; name="fit_file"; filename="{file_name}"\r\n'
                 f"Content-Type: application/octet-stream\r\n\r\n"
